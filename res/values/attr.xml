@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+  <!-- Attribute for the Music Controls widget on the lock screen -->
+
+<declare-styleable name="MusicControls">
+        <!-- Use "horizontal" or "vertical". The default is horizontal. -->
+        <attr name="orientation" />
+    </declare-styleable>
+    
+    
+    <declare-styleable name="CircularSelector">
+        <!-- Use "horizontal" or "vertical". The default is horizontal. -->
+        <attr name="orientation" />
+    </declare-styleable>
+    
+    
+    
+      <!-- Standard orientation constant. -->
+    <attr name="orientation">
+        <!-- Defines an horizontal widget. -->
+        <enum name="horizontal" value="0" />
+        <!-- Defines a vertical widget. -->
+        <enum name="vertical" value="1" />
+    </attr>
+
+    
+
+</resources>
