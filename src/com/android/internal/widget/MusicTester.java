@@ -24,6 +24,9 @@ public class MusicTester extends Activity {
         
         int orientation = display.getRotation();
         
+        
+        mCircularSelector = (CircularSelector) findViewById(R.id.circular_selector);
+        
         if( orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180){
         setContentView(R.layout.main);
         }
@@ -31,8 +34,8 @@ public class MusicTester extends Activity {
 
             setContentView(R.layout.landscape);
         }
-
-        mCircularSelector = (CircularSelector) findViewById(R.id.circular_selector);
+        
+        
         
     }
 	private void log(String msg) {
