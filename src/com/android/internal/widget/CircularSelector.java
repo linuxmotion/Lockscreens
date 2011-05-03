@@ -101,14 +101,11 @@ public class CircularSelector extends View{
             
             if(isYUnderArc(width/2, eventY, eventX, height, width) || TDBG){
             	if (DBG) log("touch-down within arc");
+            	setLockXY(eventX, eventY);
             	mIsTouchInCircle = true;
-            }/*
-            */
-            if(TDBG){
+            	invalidate();
             	
-            	mIsTouchInCircle = true;
-            }
-            
+            }           
             
             break;
 
@@ -118,19 +115,15 @@ public class CircularSelector extends View{
             if(isYUnderArc(width/2, eventY, eventX, height, width) || TDBG){
             	if (DBG) log("touch-move within arc");
             	setLockXY(eventX, eventY);
-            	invalidate();
             	mIsTouchInCircle = true;
+            	invalidate();
+            	
             }
             else{
             	
             	reset();
             	invalidate();
             	
-            }
-            if(TDBG){
-            	setLockXY(eventX, eventY);
-            	invalidate();
-            	mIsTouchInCircle = true;
             }
             break;
         case MotionEvent.ACTION_UP:
