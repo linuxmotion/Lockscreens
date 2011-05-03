@@ -1,5 +1,7 @@
 package com.android.internal.widget;
 
+import com.android.internal.widget.MusicControls.OnMusicTriggerListener;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -49,6 +51,10 @@ public class CircularSelector extends View{
 	   private boolean mIsTouchInCircle = false;
 	   
 	   private float mDensity;
+	   
+	   // ***************
+	   private OnCircularSelectorTriggerListener mCircularTriggerListener;
+	   private int  mGrabbedState = OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_NONE;
 	 
 	 
     //
@@ -103,6 +109,7 @@ public class CircularSelector extends View{
             	if (DBG) log("touch-down within arc");
             	setLockXY(eventX, eventY);
             	mIsTouchInCircle = true;
+            	setGrabbedState(OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_GRABBED);
             	invalidate();
             	
             }           
@@ -116,11 +123,15 @@ public class CircularSelector extends View{
             	if (DBG) log("touch-move within arc");
             	setLockXY(eventX, eventY);
             	mIsTouchInCircle = true;
+            	setGrabbedState(OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_GRABBED);
             	invalidate();
             	
             }
             else{
+            	// If the lock moved out of the area when moving then we need 
+            	// to dispatch the trigger
             	
+            	dispatchTriggerEvent(OnCircularSelectorTriggerListener.LOCK_ICON_TRIGGERED);	// TODO: Set propper trigger dispenser
             	reset();
             	invalidate();
             	
@@ -234,7 +245,7 @@ public class CircularSelector extends View{
      * between the two concentric circles.
      * 
      * 
-     * 
+     * For use when in portrait mode
      *
      * 
      * @param innerRadius The radius of the circle that intersects the drawable at the bottom two
@@ -281,35 +292,84 @@ public class CircularSelector extends View{
   
  
     }
-    private int getYWithinCircle(int backgroundWidth, int innerRadius, int outerRadius, int x) {
+    
+    /**
+     * For use in landscape mode
+     */
+    private int isYWithinCircle(int backgroundWidth, int innerRadius, int outerRadius, int x) {
 
-        // the hypotenuse
-        final int halfWidth = (outerRadius - innerRadius) / 2;
-        final int middleRadius = innerRadius + halfWidth;
-
-        // the bottom leg of the triangle
-        final int triangleBottom = (backgroundWidth / 2) - x;
-
-        // "Our offense is like the pythagorean theorem: There is no answer!" - Shaquille O'Neal
-        final int triangleY =
-                (int) Math.sqrt(middleRadius * middleRadius - triangleBottom * triangleBottom);
-
-        // convert to drawing coordinates:
-        // middleRadius - triangleY =
-        //   the vertical distance from the outer edge of the circle to the desired point
-        // from there we add the distance from the top of the drawable to the middle circle
-        return middleRadius - triangleY + halfWidth;
+    	//TODO: Add functionality for landscape circle
+       
+        return 0;
     }
     
     
     
-    // Lock positiojn function
+    // Lock position function
     
     private void setLockXY(int eventX, int eventY){
     	mLockX = eventX;
     	mLockY = eventY;
     	
     	
+    }
+    
+    // ****************** Interface
+    
+    public interface OnCircularSelectorTriggerListener{
+    	
+    	static final int ICON_GRABBED_STATE_NONE = 0;
+    	static final int ICON_GRABBED_STATE_GRABBED = 1;
+    	
+    	static final int LOCK_ICON_TRIGGERED = 10;
+    	
+    	public void OnCircularSelectorGrabbedStateChanged(View v, int GrabState);
+    	
+    	public void onCircularSelectorTrigger(View v, int Trigger);
+
+    	
+    }
+    
+    // *********************** Callbacks
+    
+    /**
+     * Registers a callback to be invoked when the music controls
+     * are "triggered" by sliding the view one way or the other
+     * or pressing the music control buttons.
+     *
+     * @param l the OnMusicTriggerListener to attach to this view
+     */
+    public void setOnCircularSelectorTriggerListener(OnCircularSelectorTriggerListener l) {
+    	 if (DBG) log("Setting the listners");
+    	this.mCircularTriggerListener = l;
+    }
+    
+    /**
+     * Sets the current grabbed state, and dispatches a grabbed state change
+     * event to our listener.
+     */
+    private void setGrabbedState(int newState) {
+        if (newState != mGrabbedState) {
+            mGrabbedState = newState;
+            if (mCircularTriggerListener != null) {
+                mCircularTriggerListener.OnCircularSelectorGrabbedStateChanged(this, mGrabbedState);
+            }
+        }
+    }
+    
+    
+    /**
+     * Dispatches a trigger event to our listener.
+     */
+    private void dispatchTriggerEvent(int whichTrigger) {
+    	
+    	 if (IDBG) log("Dispatching a trigered event");
+        //vibrate(VIBRATE_LONG);
+        if (mCircularTriggerListener != null) {
+            
+        		mCircularTriggerListener.onCircularSelectorTrigger(this, whichTrigger);
+            
+        }
     }
     
     
@@ -328,6 +388,7 @@ public class CircularSelector extends View{
     }
     private void reset(){
     	
+    	setGrabbedState(OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_NONE);
     	mIsTouchInCircle = false;
     	
     }
