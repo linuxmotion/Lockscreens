@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hello">Hello World, MusicTester!</string>
-    <string name="app_name">MusicControlsTester</string>
+    <string name="hello">Hello and welcome to the lockscreen tester.</string>
+    <string name="app_name">LockScreenTester</string>
 </resources>
