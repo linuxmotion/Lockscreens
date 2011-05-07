@@ -107,20 +107,26 @@ public class CircularSelector extends View{
      
             	if(isVertical() ? isYUnderArc(width/2, eventY, eventX, height, width) : isYWithinCircle(width/3, eventY, eventX, height, width) || TDBG){
             
-            	if (DBG) log("touch-down within the arc or circle");
-            	setLockXY(eventX, eventY);
-            	mIsTouchInCircle = true;
-            	setGrabbedState(OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_GRABBED);
-            	invalidate();
+			if (DBG) log("touch-down within the arc or circle");
+			setLockXY(eventX, eventY);
+		 	mIsTouchInCircle = true;
+			setGrabbedState(OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_GRABBED);
+		    	invalidate();
+		   	
+		
             	}
-            	
+		else{
+			 if (DBG) log("touch-down outside the arc or circle");
+			reset();
+			invalidate();
+		}
        
             break;
 
         case MotionEvent.ACTION_MOVE:
             if (DBG) log("touch-move");
             
-            if(isVertical() ?isYUnderArc(width/2, eventY, eventX, height, width) : isYWithinCircle(width/3, eventY, eventX, height, width) || TDBG){
+            if((isVertical() ?isYUnderArc(width/2, eventY, eventX, height, width) : isYWithinCircle(width/3, eventY, eventX, height, width) || TDBG) ){
             	if (DBG) log("touch-move within the arc or circle");
             	setLockXY(eventX, eventY);
             	mIsTouchInCircle = true;
@@ -128,14 +134,19 @@ public class CircularSelector extends View{
             	invalidate();
             	
             }
-            else{
+            else if(mIsTouchInCircle == true){
             	// If the lock moved out of the area when moving then we need 
-            	// to dispatch the trigger
+            	// to dispatch the trigger and reset our variables.
             	
             	dispatchTriggerEvent(OnCircularSelectorTriggerListener.LOCK_ICON_TRIGGERED);	// TODO: Set propper trigger dispenser
             	reset();
             	invalidate();
             	
+            }
+            else{
+            	
+            	reset();
+            	invalidate();
             }
             break;
         case MotionEvent.ACTION_UP:
