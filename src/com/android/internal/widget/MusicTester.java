@@ -12,9 +12,8 @@ import android.widget.Toast;
 
 public class MusicTester extends Activity implements CircularSelector.OnCircularSelectorTriggerListener{
 	
-	MusicControls mMusicControls;
-	CircularSelector mCircularSelector;
 	
+	CircularSelector mCircularSelector;
 	private String TAG = "LockMusicControlsTester";
 	private static final boolean DBG = false;
 	
@@ -37,8 +36,10 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
 
             setContentView(R.layout.landscape);
         }
-          mCircularSelector = (CircularSelector) findViewById(R.id.circular_selector);
+          
+        mCircularSelector = (CircularSelector) findViewById(R.id.circular_selector);
         mCircularSelector.setOnCircularSelectorTriggerListener(this);
+        
         
         
     }

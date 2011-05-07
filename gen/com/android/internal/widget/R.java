@@ -24,15 +24,16 @@ public final class R {
     }
     public static final class drawable {
         public static final int background=0x7f020000;
-        public static final int honey_circul_portrait=0x7f020001;
-        public static final int icon=0x7f020002;
-        public static final int lock_ic_default_artwork=0x7f020003;
+        public static final int icon=0x7f020001;
+        public static final int lock_ic_default_artwork=0x7f020002;
+        public static final int lock_ic_land_circ=0x7f020003;
         public static final int lock_ic_lock=0x7f020004;
         public static final int lock_ic_media_handle=0x7f020005;
         public static final int lock_ic_media_next=0x7f020006;
         public static final int lock_ic_media_pause=0x7f020007;
         public static final int lock_ic_media_play=0x7f020008;
         public static final int lock_ic_media_previous=0x7f020009;
+        public static final int lock_ic_port_circ=0x7f02000a;
     }
     public static final class id {
         public static final int circular_selector=0x7f040003;

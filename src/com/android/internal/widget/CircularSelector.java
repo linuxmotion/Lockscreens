@@ -1,7 +1,5 @@
 package com.android.internal.widget;
 
-import com.android.internal.widget.MusicControls.OnMusicTriggerListener;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -9,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.drawable.shapes.ArcShape;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -44,8 +43,8 @@ public class CircularSelector extends View{
 	   
 	   
 	   // *** Circular areas **
-	   Bitmap mOuterCircul;
-	   Bitmap mInnerCircul;
+	   Bitmap mPortraitCircle;
+	   Bitmap mLandscapeCircle;
 	   Bitmap mLockIcon;
 	   private int mLockX, mLockY;
 	   private boolean mIsTouchInCircle = false;
@@ -69,6 +68,7 @@ public class CircularSelector extends View{
 		
 		   TypedArray a =
 	            context.obtainStyledAttributes(attrs, R.styleable.CircularSelector);
+		   // TODO obtain proper orientaion
 	        mOrientation = a.getInt(R.styleable.CircularSelector_orientation, HORIZONTAL);
 	        a.recycle();
 	        
@@ -87,14 +87,10 @@ public class CircularSelector extends View{
 		
 		final int action = event.getAction();
 		
-    	final int eventX = isHoriz() ?
-                (int) event.getX():
-                height - ((int) event.getY());
+	
+		final int eventX = (int) event.getX();
                 
-        final int eventY = isHoriz() ?
-    	                (int) event.getY():
-    	                height - ((int) event.getX());
-		
+        final int eventY = (int) event.getY();
 
         if (DBG) log("x -" + eventX + " y -" + eventY);
     	                
@@ -104,23 +100,24 @@ public class CircularSelector extends View{
             /* If the event is lower thatn the inner radius than cause the lock icon to move the 
              * position
              */
+     
+            	if(isVertical() ? isYUnderArc(width/2, eventY, eventX, height, width) : isYWithinCircle(width/3, eventY, eventX, height, width) || TDBG){
             
-            if(isYUnderArc(width/2, eventY, eventX, height, width) || TDBG){
-            	if (DBG) log("touch-down within arc");
+            	if (DBG) log("touch-down within the arc or circle");
             	setLockXY(eventX, eventY);
             	mIsTouchInCircle = true;
             	setGrabbedState(OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_GRABBED);
             	invalidate();
+            	}
             	
-            }           
-            
+       
             break;
 
         case MotionEvent.ACTION_MOVE:
             if (DBG) log("touch-move");
             
-            if(isYUnderArc(width/2, eventY, eventX, height, width) || TDBG){
-            	if (DBG) log("touch-move within arc");
+            if(isVertical() ?isYUnderArc(width/2, eventY, eventX, height, width) : isYWithinCircle(width/3, eventY, eventX, height, width) || TDBG){
+            	if (DBG) log("touch-move within the arc or circle");
             	setLockXY(eventX, eventY);
             	mIsTouchInCircle = true;
             	setGrabbedState(OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_GRABBED);
@@ -162,6 +159,8 @@ public class CircularSelector extends View{
 
           final int width = getWidth();
           final int height = getHeight();
+          final int halfWidth = width/2;
+          final int halfHeight = height/2;
 
  	    
           if (DBG) log("The width of the view is " + width + " and the hieght of the veiw is " + height );
@@ -173,18 +172,36 @@ public class CircularSelector extends View{
               mPaint.setColor(0xffff0000);
               mPaint.setStyle(Paint.Style.STROKE);
               canvas.drawRect(0, 0, width, height , mPaint);
+            if(isVertical()){
+            	 canvas.drawCircle(halfWidth, height, halfWidth, mPaint);
+              }else{
+            	  canvas.drawCircle(halfWidth, halfHeight, width/3, mPaint);
+              }
           }
           
           
-          canvas.drawBitmap(mOuterCircul,  0, 0, mPaint);
+          if(isVertical()){
+        	  canvas.drawBitmap(this.mPortraitCircle,  0, 0, mPaint);
+          }
+          else{
+        	  
+        	  canvas.drawBitmap(this.mLandscapeCircle, width-mLandscapeCircle.getWidth(), (height-mLandscapeCircle.getHeight())/2, mPaint);
+          }
           
           if(mIsTouchInCircle)	
         	  
-        	  canvas.drawBitmap(mLockIcon,  mLockX-(mLockIcon.getWidth()/2), mLockY - mLockIcon.getHeight(), mPaint);
+        	  
+        		  canvas.drawBitmap(mLockIcon,  mLockX-(mLockIcon.getWidth()/2), mLockY - mLockIcon.getHeight()/2, mPaint);
+        	
           
           else{
-        	  // Fallback case where the lock is always drawn in the center on the bottom of the view
-        	   canvas.drawBitmap(mLockIcon,  (width/2)-(mLockIcon.getWidth()/2), height-mLockIcon.getHeight(), mPaint);
+        	  if(isVertical()){
+	        	  // Fallback case where the lock is always drawn in the center on the bottom of the view
+	        	   canvas.drawBitmap(mLockIcon,  (width/2)-(mLockIcon.getWidth()/2), height-mLockIcon.getHeight(), mPaint);
+	     	  }else{
+	    		// TODO  
+	     		 canvas.drawBitmap(mLockIcon,  (width - mLockIcon.getWidth())/2, (height -mLockIcon.getHeight())/2, mPaint);
+	    	  }
         	  
           }
 		
@@ -198,11 +215,11 @@ public class CircularSelector extends View{
 		  if (IDBG) log("Measuring the demensions of the view");
     	   
 		  
-		  final int length = isHoriz() ?
+		  final int length = isVertical() ?
                   MeasureSpec.getSize(widthMeasureSpec) :
                   MeasureSpec.getSize(heightMeasureSpec);
                   
-      	final int height = (isHoriz() ?
+      	final int height = (isVertical() ?
                       (MeasureSpec.getSize(heightMeasureSpec)/5)*2 :
                       MeasureSpec.getSize(widthMeasureSpec)/2);
 		  
@@ -211,7 +228,7 @@ public class CircularSelector extends View{
 
 
 		  if (DBG) log("The demensions of the view is length:" + length + " and height: " + height );
-           if (isHoriz()) {
+           if (isVertical()) {
                setMeasuredDimension(length, height);
            } else {
                setMeasuredDimension(height, length);
@@ -225,7 +242,8 @@ public class CircularSelector extends View{
     // ************* Initilization function
     
     private void initializeUI(){
-    	mOuterCircul = getBitmapFor(R.drawable.honey_circul_portrait);
+    	mPortraitCircle = getBitmapFor(R.drawable.lock_ic_port_circ);
+    	mLandscapeCircle =  getBitmapFor(R.drawable.lock_ic_land_circ);
     	mLockIcon = getBitmapFor(R.drawable.lock_ic_lock);
     }
     
@@ -268,12 +286,12 @@ public class CircularSelector extends View{
     	int CartesianShiftTouchX;
     	int CartesianShiftTouchY; 
     	
-    	if(x > CartesianX)
+    	if(x < CartesianX)
     		CartesianShiftTouchX = CartesianX - x;
     	else
     		 CartesianShiftTouchX = x - CartesianX;
     	
-    	if(y > CartesianY)
+    	if(y < CartesianY)
     		CartesianShiftTouchY = CartesianX - y;
     	else
     		 CartesianShiftTouchY = y - CartesianY;
@@ -296,11 +314,32 @@ public class CircularSelector extends View{
     /**
      * For use in landscape mode
      */
-    private int isYWithinCircle(int backgroundWidth, int innerRadius, int outerRadius, int x) {
+    private boolean isYWithinCircle(int innerRadius, int y, int x, int height, int width) {
 
+    	int YRadiusUnderArc = innerRadius;
+      	int CartesianX = width/2; // The x point directly in the middle of the view
+    	int CartesianY = height/2;  // The Y point directly in the middle of the view
+    	int CartesianShiftTouchX;
+    	int CartesianShiftTouchY; 
+    	
+    	
+    	if(x > CartesianX)
+    		CartesianShiftTouchX = CartesianX - x;
+    	else
+    		 CartesianShiftTouchX = x - CartesianX;
+    	
+    	if(y > CartesianY)
+    		CartesianShiftTouchY = CartesianX - y;
+    	else
+    		 CartesianShiftTouchY = y - CartesianY;
     	//TODO: Add functionality for landscape circle
-       
-        return 0;
+    	
+    	int YTouchRadius = (int) Math.sqrt((CartesianShiftTouchX*CartesianShiftTouchX) + (CartesianShiftTouchY*CartesianShiftTouchY));
+    	
+    	if(YTouchRadius > YRadiusUnderArc)
+    		return false;
+    	else 
+    		return true;
     }
     
     
@@ -374,8 +413,8 @@ public class CircularSelector extends View{
     
     
     //************************** Misc Function***********************
-    private boolean isHoriz() {
-        return (mOrientation == HORIZONTAL);
+    private boolean isVertical() {
+        return (mOrientation == VERTICAL);
     }
     
     
