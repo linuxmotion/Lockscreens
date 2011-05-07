@@ -7,11 +7,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.shapes.ArcShape;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
+import android.view.WindowManager;
 
 public class CircularSelector extends View{
 	
@@ -69,7 +71,9 @@ public class CircularSelector extends View{
 		   TypedArray a =
 	            context.obtainStyledAttributes(attrs, R.styleable.CircularSelector);
 		   // TODO obtain proper orientaion
-	        mOrientation = a.getInt(R.styleable.CircularSelector_orientation, HORIZONTAL);
+		   
+	        mOrientation = a.getInt(R.styleable.CircularSelector_orientation, VERTICAL);
+
 	        a.recycle();
 	        
 	        initializeUI();

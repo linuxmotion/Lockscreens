@@ -37,8 +37,8 @@ public final class R {
     }
     public static final class id {
         public static final int circular_selector=0x7f040003;
+        public static final int date=0x7f040002;
         public static final int horizontal=0x7f040000;
-        public static final int text=0x7f040002;
         public static final int vertical=0x7f040001;
     }
     public static final class layout {

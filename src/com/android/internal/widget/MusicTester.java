@@ -1,17 +1,24 @@
 package com.android.internal.widget;
 
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Display;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MusicTester extends Activity implements CircularSelector.OnCircularSelectorTriggerListener{
-	
+	   private TextView mTime;
+
+	    private String mDateFormatString;
+	    private TextView mDate;
 	
 	CircularSelector mCircularSelector;
 	private String TAG = "LockMusicControlsTester";
@@ -25,7 +32,8 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
         
         int orientation = display.getRotation();
-        
+
+        //mDateFormatString = getContext().getString(R.string.full_wday_month_day_no_year);
         
       
         
@@ -42,6 +50,18 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
         
         
         
+        
+        
+        
+        
+        mDate = (TextView) findViewById(R.id.date);
+        refreshTimeAndDateDisplay();
+        
+        
+        
+    }
+    private void refreshTimeAndDateDisplay() {
+        mDate.setText(DateFormat.format("EEEE, MMMM dd, yyyy h:mmaa", new Date()));
     }
 	private void log(String msg) {
 	    Log.d(TAG, msg);
