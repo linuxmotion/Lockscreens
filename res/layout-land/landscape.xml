@@ -8,17 +8,15 @@
     android:background="@drawable/background">
 
 <!-- left side -->
-    <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+    <com.android.internal.widget.MusicControlsLayout
+            android:layout_width="100dip"
+            android:layout_height="100dip"
             android:layout_weight="1.0"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="28dip"
-            android:gravity="center"
-            android:background="@drawable/lock_ic_clock_background" >
-<!-- <include android:id="@+id/cell1" layout="@layout/digiclock" /> -->
-
-             </RelativeLayout>
+            android:layout_marginLeft="50dip"
+            android:layout_alignParentLeft="true">
+            
+     </com.android.internal.widget.MusicControlsLayout>
     
      <com.android.internal.widget.CircularSelector
     	android:id="@+id/circular_selector"

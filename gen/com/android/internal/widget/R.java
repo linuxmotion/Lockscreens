@@ -25,22 +25,27 @@ public final class R {
     public static final class drawable {
         public static final int background=0x7f020000;
         public static final int icon=0x7f020001;
-        public static final int lock_ic_clock_background=0x7f020002;
-        public static final int lock_ic_default_artwork=0x7f020003;
-        public static final int lock_ic_land_circ=0x7f020004;
-        public static final int lock_ic_lock=0x7f020005;
-        public static final int lock_ic_media_handle=0x7f020006;
-        public static final int lock_ic_media_next=0x7f020007;
-        public static final int lock_ic_media_pause=0x7f020008;
-        public static final int lock_ic_media_play=0x7f020009;
-        public static final int lock_ic_media_previous=0x7f02000a;
-        public static final int lock_ic_port_circ=0x7f02000b;
+        public static final int lock_ic_background=0x7f020002;
+        public static final int lock_ic_clock_background=0x7f020003;
+        public static final int lock_ic_default_artwork=0x7f020004;
+        public static final int lock_ic_land_circ=0x7f020005;
+        public static final int lock_ic_lock=0x7f020006;
+        public static final int lock_ic_media_handle=0x7f020007;
+        public static final int lock_ic_media_next=0x7f020008;
+        public static final int lock_ic_media_pause=0x7f020009;
+        public static final int lock_ic_media_play=0x7f02000a;
+        public static final int lock_ic_media_previous=0x7f02000b;
+        public static final int lock_ic_port_circ=0x7f02000c;
     }
     public static final class id {
         public static final int am_pm=0x7f040004;
         public static final int circular_selector=0x7f040006;
         public static final int date=0x7f040005;
+        public static final int fast_forward_button=0x7f04000a;
         public static final int horizontal=0x7f040000;
+        public static final int music_controls_layout=0x7f040007;
+        public static final int play_pause_button=0x7f040008;
+        public static final int rewind_button=0x7f040009;
         public static final int time=0x7f040002;
         public static final int timeDisplay=0x7f040003;
         public static final int vertical=0x7f040001;
@@ -49,6 +54,7 @@ public final class R {
         public static final int digiclock=0x7f030000;
         public static final int landscape=0x7f030001;
         public static final int main=0x7f030002;
+        public static final int musiccontrols=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f050001;
