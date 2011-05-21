@@ -57,6 +57,7 @@ public class CircularSelector extends View{
 	   private OnCircularSelectorTriggerListener mCircularTriggerListener;
 	   private int  mGrabbedState = OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_NONE;
 	 
+	   Boolean mSlideisSensitive = false;
 	 
     //
     //********************** Constructors**********
@@ -126,10 +127,10 @@ public class CircularSelector extends View{
         case MotionEvent.ACTION_MOVE:
             if (DBG) log("touch-move");
             
-            if((isVertical() ?isYUnderArc(width/2, eventY, eventX, height, width) : isYWithinCircle(width/3, eventY, eventX, height, width) || TDBG) ){
+            if((isVertical() ? isYUnderArc(width/2, eventY, eventX, height, width) : isYWithinCircle(width/3, eventY, eventX, height, width) || TDBG) ){
             	if (DBG) log("touch-move within the arc or circle");
             	setLockXY(eventX, eventY);
-            	mIsTouchInCircle = true;
+            	if(mSlideisSensitive)mIsTouchInCircle = true;
             	setGrabbedState(OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_GRABBED);
             	invalidate();
             	
@@ -368,7 +369,14 @@ public class CircularSelector extends View{
     	
     }
     
-    // ****************** Interface
+    /**
+     * This is the interface for creating the is-a
+     * relationship with another class. In this context
+     * it is used to allow the trigger for the widget
+     * to be application dependent. The trigger can be 
+     * in one of two state either
+     *  {@link ICON_GRABBED_STATE_NONE} or {@link ICON_GRABBED_STATE_GRABBED}
+     */
     
     public interface OnCircularSelectorTriggerListener{
     	
@@ -444,6 +452,23 @@ public class CircularSelector extends View{
     	
     	setGrabbedState(OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_NONE);
     	mIsTouchInCircle = false;
+    	
+    }
+    
+    /**
+     * If the implementor wishes that the grab state be
+     * changed from movement that come from the outside
+     * of the lock ring. Note, this still requires that the user move
+     * the lock icon out of the ring. The default behavior is to not 
+     * be sensitive to these kind of input and disregard the input.
+     * 
+     * 
+     * @param SlideAll Initiate lock movement if touch is received from outside the area and moved in.
+     */
+    public void setSlide(boolean SlideAll){
+    	
+    	mSlideisSensitive = SlideAll;
+    	
     	
     }
     

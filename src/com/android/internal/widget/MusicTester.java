@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,10 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MusicTester extends Activity implements CircularSelector.OnCircularSelectorTriggerListener{
-	   private TextView mTime;
+
 
 	    private String mDateFormatString;
 	    private TextView mDate;
+	    private TextView mTime;
+	    private TextView mAmPm;
 	
 	CircularSelector mCircularSelector;
 	private String TAG = "LockMusicControlsTester";
@@ -29,13 +32,22 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        
+
+
+        
+        
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
         
         int orientation = display.getRotation();
 
         //mDateFormatString = getContext().getString(R.string.full_wday_month_day_no_year);
+       
+       mTime = (TextView) findViewById(R.id.timeDisplay);
+        mAmPm = (TextView) findViewById(R.id.am_pm);
+        mDate = (TextView) findViewById(R.id.date);
         
-      
+        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
         if( orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180){
         setContentView(R.layout.main);
@@ -43,19 +55,16 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
         else{
 
             setContentView(R.layout.landscape);
+           
         }
           
         mCircularSelector = (CircularSelector) findViewById(R.id.circular_selector);
         mCircularSelector.setOnCircularSelectorTriggerListener(this);
         
+       
         
         
-        
-        
-        
-        
-        mDate = (TextView) findViewById(R.id.date);
-        refreshTimeAndDateDisplay();
+        //refreshTimeAndDateDisplay();
         
         
         
