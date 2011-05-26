@@ -1,42 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.android.internal.widget.MusicControlsLayout  
-	android:id="@+id/music_controls_layout"
-  	xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="100dip"
-    android:layout_weight="1.0"
-    android:layout_centerVertical="true"
-    android:layout_alignParentLeft="true">
-           
-            
-     
-  	
-  <ImageView  android:id="@+id/play_pause_button" 
-    	android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:clickable="true"
-        android:visibility="visible"  
-  	/>
-  	 <ImageView android:id="@+id/rewind_button" 
-  	  		android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-        	android:clickable="true"
-        	android:visibility="visible"  
-            android:layout_toLeftOf="@id/play_pause_button"
-            android:background="@drawable/lock_ic_media_previous"
-           
-  	/>
-  	   <ImageView  android:id="@+id/fast_forward_button" 
-    		android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true"
-        	android:clickable="true"
-        	android:visibility="visible"  
-  			android:layout_toRightOf="@id/play_pause_button"
-  	/>
-  
-  </com.android.internal.widget.MusicControlsLayout>
-  
-  
+
+    <RelativeLayout android:id="@+id/relativeLayout1" android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    
+        <ImageButton android:layout_height="wrap_content" 
+        android:layout_width="wrap_content" 
+        android:id="@+id/imageButton2" 
+        android:src="@drawable/lock_ic_media_play" 
+        android:layout_alignParentTop="true"
+        ></ImageButton>
+        
+            <ImageButton android:layout_height="wrap_content" 
+        android:layout_width="wrap_content"
+         android:id="@+id/imageButton1"
+          android:src="@drawable/lock_ic_media_previous" 
+          android:layout_alignParentTop="true"></ImageButton>
+        
+        <ImageButton android:layout_height="wrap_content" 
+        android:layout_width="wrap_content" 
+        android:id="@+id/imageButton3" 
+        android:src="@drawable/lock_ic_media_next" 
+        android:layout_alignParentLeft="true"></ImageButton>
+    </RelativeLayout>
