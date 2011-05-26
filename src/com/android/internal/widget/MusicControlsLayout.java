@@ -6,20 +6,17 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.media.AudioManager;
 import android.os.SystemClock;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 
-public class MusicControlsLayout extends RelativeLayout implements OnClickListener{
+public class MusicControlsLayout extends LinearLayout implements OnClickListener{
 	
 	
 	private String TAG = "MusicControlsLayout";
@@ -30,7 +27,7 @@ public class MusicControlsLayout extends RelativeLayout implements OnClickListen
 	ImageView  mPlayPauseButton;
 	ImageView  mFastFowardButton;
 	ImageView  mRewindButton;
-	RelativeLayout mLayout;
+	LinearLayout mLayout;
 	
 	boolean mIsMusicPlaying;
 	boolean mControlsAlwaysDisplayed;
@@ -43,7 +40,7 @@ public class MusicControlsLayout extends RelativeLayout implements OnClickListen
 	private static long mAlbumId = 0;
 	
 	
-	private AudioManager am = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
+	private AudioManager am; 
 	
 	private static Context mContext;
 
@@ -65,10 +62,11 @@ public class MusicControlsLayout extends RelativeLayout implements OnClickListen
     public void onFinishInflate(){
     	super.onFinishInflate();
     	
+    	am = (AudioManager)getContext().getSystemService(Context.AUDIO_SERVICE);
+    	mIsMusicPlaying = am.isMusicActive();
     	
+    	 mLayout = (LinearLayout) this.findViewById(R.id.music_controls_layout);
     	 
-    	 mLayout = (RelativeLayout) this.findViewById(R.id.music_controls_layout);
-    	 /*
     	 mPlayPauseButton = (ImageView) mLayout.findViewById(R.id.play_pause_button);
     	 mFastFowardButton = (ImageView) mLayout.findViewById(R.id.fast_forward_button);
     	 mRewindButton = (ImageView) mLayout.findViewById(R.id.rewind_button);
@@ -78,13 +76,23 @@ public class MusicControlsLayout extends RelativeLayout implements OnClickListen
         this.mPlayPauseButton.setOnClickListener(this);
         this.mFastFowardButton.setOnClickListener(this);
         this.mRewindButton.setOnClickListener(this);
+        
+        if(mIsMusicPlaying){
+        	
+        	mPlayPauseButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_pause));
+        	
+        }
+        else{
+        	
+        	mPlayPauseButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_play));
+        }
     	 
    
     	   
-    	 mRewindButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_previous));
-    	 mPlayPauseButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_play));
-    	 mFastFowardButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_next));
-    	 */
+    	 //mRewindButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_previous));
+    	 //mPlayPauseButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_play));
+    	 //mFastFowardButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_next));
+    	
     }
     
     @Override
@@ -123,22 +131,49 @@ public class MusicControlsLayout extends RelativeLayout implements OnClickListen
     
     public void onClick(View v) {
 		// TODO Auto-generated method stub
+    	this.mIsMusicPlaying = am.isMusicActive();
 		log("A view has been clicked");
 		
 		
 		if(v.equals(mRewindButton)){
 			
-			
+			log("The rewind button has been clicked");
+			sendMediaButtonEvent(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+			mPlayPauseButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_pause));
+			this.mIsMusicPlaying = am.isMusicActive();
+			updateMusicButtonStates();
 		}
 
 		if(v.equals(this.mPlayPauseButton)){
+			log("The view play/pause has been clicked");
+			
+			
+			if(mIsMusicPlaying){
+				
+				sendMediaButtonEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+	        	mPlayPauseButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_play));
+	        	this.mIsMusicPlaying = am.isMusicActive();
+	        	updateMusicButtonStates();
+	        	
+	        }
+	        else{ 
+	        	sendMediaButtonEvent(KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE);
+	        	mPlayPauseButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_pause));
+	        	this.mIsMusicPlaying = am.isMusicActive();
+	        	updateMusicButtonStates();
+	        	
+	        }
 			
 			
 		}
 
 		if(v.equals(this.mFastFowardButton)){
 			
-			
+			log("The fast forward button has been clicked");
+			sendMediaButtonEvent(KeyEvent.KEYCODE_MEDIA_NEXT);
+			mPlayPauseButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_pause));
+			this.mIsMusicPlaying = am.isMusicActive();
+			updateMusicButtonStates();
 		}
 
 		
@@ -167,7 +202,7 @@ public class MusicControlsLayout extends RelativeLayout implements OnClickListen
 
     };
     
-    
+  
     
 	   public void sendMediaButtonEvent(int code) {
 		   
@@ -196,6 +231,13 @@ public class MusicControlsLayout extends RelativeLayout implements OnClickListen
 
 	private void log(String msg) {
 	    Log.d(TAG, msg);
+	}
+	
+	private void updateMusicButtonStates(){
+		log("Updating music button states");
+		
+		
+		
 	}
 	    
 
