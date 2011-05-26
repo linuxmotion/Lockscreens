@@ -2,21 +2,31 @@
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
  xmlns:ss="http://schemas.android.com/apk/res/com.android.internal.widget"
+ android:id="@+id/lockscreen_screen"
   android:orientation="horizontal"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
     android:background="@drawable/background">
 
 <!-- left side -->
-    <com.android.internal.widget.MusicControlsLayout
-            android:layout_width="100dip"
-            android:layout_height="100dip"
-            android:layout_weight="1.0"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="50dip"
-            android:layout_alignParentLeft="true">
-            
-     </com.android.internal.widget.MusicControlsLayout>
+    
+     
+<!-- left side -->
+		<LinearLayout  android:orientation="vertical"
+			android:layout_width="wrap_content"
+  			android:layout_height="wrap_content"
+  			android:layout_alignParentLeft="true"
+  			android:layout_centerVertical="true"
+  			android:background="@drawable/background" 
+  			android:layout_marginLeft="15dip"
+  			android:focusable="true"
+  			android:clickable="true"
+  			>
+  			
+			<include android:id="@+id/music_lockscreen_controls" 
+					 layout="@layout/music_controls"  /> 
+					 
+		</LinearLayout>
     
      <com.android.internal.widget.CircularSelector
     	android:id="@+id/circular_selector"

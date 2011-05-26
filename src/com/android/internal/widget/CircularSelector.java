@@ -201,7 +201,7 @@ public class CircularSelector extends View{
           }
           else{
         	  
-        	  canvas.drawBitmap(this.mLandscapeCircle, width-mLandscapeCircle.getWidth(), (height-mLandscapeCircle.getHeight())/2, mPaint);
+        	  canvas.drawBitmap(this.mLandscapeCircle, (width-mLandscapeCircle.getWidth())/2, (height-mLandscapeCircle.getHeight())/2, mPaint);
           }
           
           if(mIsTouchInCircle)	
@@ -259,7 +259,7 @@ public class CircularSelector extends View{
     
     private void initializeUI(){
     	mPortraitCircle = getBitmapFor(R.drawable.lock_ic_port_circ);
-    	mLandscapeCircle =  getBitmapFor(R.drawable.lock_ic_land_circ);
+    	mLandscapeCircle =  getBitmapFor(R.drawable.lock_ic_land_phosphrous);
     	mLockIcon = getBitmapFor(R.drawable.lock_ic_lock);
     }
     

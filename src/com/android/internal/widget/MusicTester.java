@@ -47,8 +47,8 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
         mAmPm = (TextView) findViewById(R.id.am_pm);
         mDate = (TextView) findViewById(R.id.date);
         
-        final LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         
+        /*
         if( orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180){
         setContentView(R.layout.main);
         }
@@ -57,9 +57,12 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
             setContentView(R.layout.landscape);
            
         }
-          
-        mCircularSelector = (CircularSelector) findViewById(R.id.circular_selector);
-        mCircularSelector.setOnCircularSelectorTriggerListener(this);
+          */
+        setContentView(R.layout.music_controls);
+        
+        
+        //mCircularSelector = (CircularSelector) findViewById(R.id.circular_selector);
+        //mCircularSelector.setOnCircularSelectorTriggerListener(this);
         
        
         
