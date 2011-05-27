@@ -88,11 +88,6 @@ public class MusicControlsLayout extends LinearLayout implements OnClickListener
         }
     	 
    
-    	   
-    	 //mRewindButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_previous));
-    	 //mPlayPauseButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_play));
-    	 //mFastFowardButton.setImageBitmap(getBitmapFor(R.drawable.lock_ic_media_next));
-    	
     }
     
     @Override
