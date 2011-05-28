@@ -10,6 +10,28 @@ package com.android.internal.widget;
 public final class R {
     public static final class attr {
         /**  Standard orientation constant. 
+         <p>Must be one or more (separated by '|') of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>image</code></td><td>0</td><td></td></tr>
+</table>
+         */
+        public static final int notificationimage=0x7f010003;
+        /**  Standard orientation constant. 
+         <p>Must be one or more (separated by '|') of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>image</code></td><td>0</td><td> Defines an horizontal widget. </td></tr>
+</table>
+         */
+        public static final int notificationtext=0x7f010002;
+        /**  Standard orientation constant. 
          <p>Must be one of the following constant values.</p>
 <table>
 <colgroup align="left" />
@@ -20,7 +42,15 @@ public final class R {
 <tr><td><code>vertical</code></td><td>1</td><td> Defines a vertical widget. </td></tr>
 </table>
          */
-        public static final int orientation=0x7f010000;
+        public static final int orientation=0x7f010001;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int textSize=0x7f010000;
     }
     public static final class drawable {
         public static final int background=0x7f020000;
@@ -53,22 +83,22 @@ public final class R {
     }
     public static final class id {
         public static final int am_pm=0x7f040012;
-        public static final int circular_selector=0x7f040006;
+        public static final int circular_selector=0x7f040007;
         public static final int date=0x7f040013;
-        public static final int fast_forward_button=0x7f04000a;
+        public static final int fast_forward_button=0x7f04000b;
         public static final int horizontal=0x7f040000;
-        public static final int lockscreen_music_controls=0x7f04000f;
-        public static final int lockscreen_notifications_layout=0x7f040005;
-        public static final int lockscreen_screen=0x7f040002;
-        public static final int lockscreen_time_date=0x7f040003;
-        public static final int music_controls_layout=0x7f040007;
-        public static final int music_lockscreen_controls=0x7f040004;
-        public static final int notifications_btn_battery=0x7f04000b;
-        public static final int notifications_btn_gmail=0x7f04000d;
-        public static final int notifications_btn_phone=0x7f04000e;
-        public static final int notifications_btn_text=0x7f04000c;
-        public static final int play_pause_button=0x7f040009;
-        public static final int rewind_button=0x7f040008;
+        public static final int image=0x7f040002;
+        public static final int lockscreen_music_controls=0x7f040005;
+        public static final int lockscreen_notifications_layout=0x7f040006;
+        public static final int lockscreen_screen=0x7f040003;
+        public static final int lockscreen_time_date=0x7f040004;
+        public static final int music_controls_layout=0x7f040008;
+        public static final int notification_image_view1=0x7f04000c;
+        public static final int notification_image_view2=0x7f04000d;
+        public static final int notification_image_view3=0x7f04000e;
+        public static final int notification_image_view4=0x7f04000f;
+        public static final int play_pause_button=0x7f04000a;
+        public static final int rewind_button=0x7f040009;
         public static final int time=0x7f040010;
         public static final int timeDisplay=0x7f040011;
         public static final int vertical=0x7f040001;
@@ -76,11 +106,10 @@ public final class R {
     public static final class layout {
         public static final int landscape=0x7f030000;
         public static final int music_controls=0x7f030001;
-        public static final int musiccontrols=0x7f030002;
-        public static final int notifications_layout=0x7f030003;
-        public static final int play_pause_selector=0x7f030004;
-        public static final int portrait=0x7f030005;
-        public static final int time_and_date=0x7f030006;
+        public static final int notifications_layout=0x7f030002;
+        public static final int play_pause_selector=0x7f030003;
+        public static final int portrait=0x7f030004;
+        public static final int time_and_date=0x7f030005;
     }
     public static final class string {
         public static final int app_name=0x7f050001;
@@ -98,7 +127,7 @@ public final class R {
            @see #CircularSelector_orientation
          */
         public static final int[] CircularSelector = {
-            0x7f010000
+            0x7f010001
         };
         /**
           <p>
@@ -125,12 +154,100 @@ public final class R {
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #ImageNotification_notificationimage com.android.internal.widget:notificationimage}</code></td><td> Standard orientation constant.</td></tr>
+           <tr><td><code>{@link #ImageNotification_notificationtext com.android.internal.widget:notificationtext}</code></td><td> Standard orientation constant.</td></tr>
+           <tr><td><code>{@link #ImageNotification_orientation com.android.internal.widget:orientation}</code></td><td> Standard orientation constant.</td></tr>
+           <tr><td><code>{@link #ImageNotification_textSize com.android.internal.widget:textSize}</code></td><td></td></tr>
+           </table>
+           @see #ImageNotification_notificationimage
+           @see #ImageNotification_notificationtext
+           @see #ImageNotification_orientation
+           @see #ImageNotification_textSize
+         */
+        public static final int[] ImageNotification = {
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003
+        };
+        /**
+          <p>
+          @attr description
+           Standard orientation constant. 
+
+
+          <p>Must be one or more (separated by '|') of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>image</code></td><td>0</td><td></td></tr>
+</table>
+          <p>This is a private symbol.
+          @attr name android:notificationimage
+        */
+        public static final int ImageNotification_notificationimage = 3;
+        /**
+          <p>
+          @attr description
+           Standard orientation constant. 
+
+
+          <p>Must be one or more (separated by '|') of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>image</code></td><td>0</td><td> Defines an horizontal widget. </td></tr>
+</table>
+          <p>This is a private symbol.
+          @attr name android:notificationtext
+        */
+        public static final int ImageNotification_notificationtext = 2;
+        /**
+          <p>
+          @attr description
+           Standard orientation constant. 
+
+
+          <p>Must be one of the following constant values.</p>
+<table>
+<colgroup align="left" />
+<colgroup align="left" />
+<colgroup align="left" />
+<tr><th>Constant</th><th>Value</th><th>Description</th></tr>
+<tr><td><code>horizontal</code></td><td>0</td><td> Defines an horizontal widget. </td></tr>
+<tr><td><code>vertical</code></td><td>1</td><td> Defines a vertical widget. </td></tr>
+</table>
+          <p>This is a private symbol.
+          @attr name android:orientation
+        */
+        public static final int ImageNotification_orientation = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.android.internal.widget.R.attr#textSize}
+          attribute's value can be found in the {@link #ImageNotification} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:textSize
+        */
+        public static final int ImageNotification_textSize = 0;
+        /** Attributes that can be used with a MusicControls.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
            <tr><td><code>{@link #MusicControls_orientation com.android.internal.widget:orientation}</code></td><td> Use "horizontal" or "vertical".</td></tr>
            </table>
            @see #MusicControls_orientation
          */
         public static final int[] MusicControls = {
-            0x7f010000
+            0x7f010001
         };
         /**
           <p>

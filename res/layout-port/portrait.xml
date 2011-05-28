@@ -32,6 +32,12 @@
 				     android:id="@+id/lockscreen_notifications_layout" 
 					 layout="@layout/notifications_layout"  /> 			 
 					
+					
+					
+						
+					
+					
+					
 						 
 			</LinearLayout>
     

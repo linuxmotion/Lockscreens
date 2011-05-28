@@ -6,7 +6,9 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -14,11 +16,12 @@ import android.view.Display;
 import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MusicTester extends Activity implements CircularSelector.OnCircularSelectorTriggerListener{
+public class MusicTester extends Activity implements CircularSelector.OnCircularSelectorTriggerListener, OnClickListener{
 
 
 	    private String mDateFormatString;
@@ -26,6 +29,11 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
 	    private TextView mTime;
 	    private AmPm mAmPm;
 	    private TextView mTimeDisplay;
+	    
+	    private ImageNotificationView mNotif1;
+	    private ImageNotificationView mNotif2;
+	    private ImageNotificationView mNotif3;
+	    private ImageNotificationView mNotif4;
 
 
 	    private final static String M12 = "h:mm";
@@ -36,6 +44,7 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
 	
 	CircularSelector mCircularSelector;
 	private String TAG = "LockMusicControlsTester";
+	private Context mContext;
 	private static final boolean DBG = false;
 	
     /** Called when the activity is first created. */
@@ -46,7 +55,7 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
         
         
 
-
+        
         
         
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
@@ -55,28 +64,42 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
 
         
         
-       
         if( orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180){
-        setContentView(R.layout.portrait);
+        	
+        	setContentView(R.layout.portrait);
         }
         else{
 
             setContentView(R.layout.landscape);
            
         }
-          
-        //setContentView(R.layout.music_controls);
+         
+         /**/
+        
+        mNotif1 = (ImageNotificationView) this.findViewById(R.id.notification_image_view1);
+        mNotif1.setOnClickListener(this);
+        
+        mNotif2 = (ImageNotificationView) this.findViewById(R.id.notification_image_view2);
+        mNotif2.setOnClickListener(this);
+        
+        mNotif3 = (ImageNotificationView) this.findViewById(R.id.notification_image_view3);
+        mNotif3.setOnClickListener(this);
+        
+        mNotif4 = (ImageNotificationView) this.findViewById(R.id.notification_image_view4);
+        mNotif4.setOnClickListener(this);
+        
+        
+        
         
         mDate = (TextView) findViewById(R.id.date);
         
         
-        // Time testing stuff
+        //  mTime testing stuff
         mTimeDisplay = (TextView) this.findViewById(R.id.timeDisplay);
         mTimeDisplay.setTypeface(Typeface.createFromFile("/system/fonts/Clockopia.ttf"));
         mTimeDisplay.setText("11:34");        
         
 
-       // mAmPm = (TextView) this.findViewById(R.id.am_pm);
         
         mAmPm = new AmPm(((LinearLayout) this.findViewById(R.id.time)), Typeface.createFromFile("/system/fonts/DroidSans-Bold.ttf"));
         
@@ -94,7 +117,7 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
         mCalendar = Calendar.getInstance();
         updateTime(mCalendar);
         
-        
+        /**/
         
     }
     private void refreshTimeAndDateDisplay() {
@@ -168,6 +191,50 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
 	        mTimeDisplay.setText(newTime);
 	        mAmPm.setIsMorning(mCalendar.get(Calendar.AM_PM) == 0);
 	    }
+		public void onClick(View v) {
+			Intent i = new Intent();
+			if(v == mNotif1){
+				
+				log("Notification pressed");
+				
+				Intent intent = new Intent();
+				intent.setClassName("com.android.settings", "com.android.settings.fuelgauge.PowerUsageSummary");
+				
+				startActivity(intent);
+				
+				
+				
+			}
+			if(v == mNotif2){
+				
+				log("Notification pressed");
+				startActivity(new Intent(Intent.ACTION_DIAL));
+				
+			}
+			if(v == mNotif3){
+	
+				log("Notification pressed");
+				Uri uri = Uri.parse("smsto:xxxxxxxx"); 
+				Intent intent = new Intent(Intent.ACTION_SENDTO, uri); 
+				intent.putExtra("sms_body", ""); 
+				startActivity(new Intent(intent));
+	
+			}
+			if(v == mNotif4){
+				
+				log("Notification pressed");
+	
+
+				i.setClassName("com.google.android.gm", "com.google.android.gm.ConversationListActivityGmail");
+				startActivity(new Intent(i));
+				
+			}
+		
+			i = null;
+			
+			// TODO Auto-generated method stub
+			
+		}
 	    
 	    
 	    
