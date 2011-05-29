@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.KeyguardManager;
+import android.app.KeyguardManager.KeyguardLock;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -52,6 +54,18 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+        
+        
+        
+        /*
+         * 
+         */
+        
+        
+        /* 
+         * 
+         * 
+         */
         
         
 
@@ -235,6 +249,9 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
 			// TODO Auto-generated method stub
 			
 		}
+		
+		
+		
 	    
 	    
 	    
