@@ -19,6 +19,7 @@
 package com.android.internal.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -43,7 +44,7 @@ public class CircularSelector extends View{
 	private static final boolean DBG = false;
 	private static final boolean IDBG = false;
 	private static final boolean TDBG = false;
-    private static final boolean VISUAL_DEBUG = false;
+    private static final boolean VISUAL_DEBUG = true;
 	
     
     // ***********Rotation constants and variables
@@ -76,6 +77,7 @@ public class CircularSelector extends View{
 	   private int  mGrabbedState = OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_NONE;
 	 
 	   Boolean mSlideisSensitive = false;
+	private float mDensityScaleFactor = 1;
 	 
     //
     //********************** Constructors**********
@@ -92,6 +94,26 @@ public class CircularSelector extends View{
 		   // TODO obtain proper orientaion
 		   
 	        mOrientation = a.getInt(R.styleable.CircularSelector_orientation, VERTICAL);
+	        
+	        Resources r = getResources();
+	        mDensity = r.getDisplayMetrics().density;
+	        int densityDpi = r.getDisplayMetrics().densityDpi;
+
+	        /*
+	         * this hack assumes people change build.prop for increasing
+	         * the virtual size of their screen by decreasing dpi in
+	         * build.prop file. this is often done especially for hd
+	         * phones. keep in mind changing build.prop and density
+	         * isnt officially supported, but this should do for most cases
+	         */
+	        if(densityDpi <= 240 && densityDpi >= 180)
+	            mDensityScaleFactor=(float)(240.0 / densityDpi);
+	        if(densityDpi <= 160 && densityDpi >= 120)
+	            mDensityScaleFactor=(float)(160.0 / densityDpi);
+
+	        
+	        
+	        
 
 	        a.recycle();
 	        
@@ -205,7 +227,7 @@ public class CircularSelector extends View{
 			  if (IDBG) log("Debugging the widget visibly");
               mPaint.setColor(0xffff0000);
               mPaint.setStyle(Paint.Style.STROKE);
-              canvas.drawRect(0, 0, width, height , mPaint);
+              canvas.drawRect(0, 0, width-1, height-1 , mPaint);
             if(isVertical()){
             	 canvas.drawCircle(halfWidth, height, halfWidth, mPaint);
               }else{
@@ -215,7 +237,7 @@ public class CircularSelector extends View{
           
           
           if(isVertical()){
-        	  canvas.drawBitmap(this.mPortraitCircle,  0, 0, mPaint);
+        	  canvas.drawBitmap(this.mPortraitCircle,  0, (height - this.mPortraitCircle.getHeight()), mPaint);
           }
           else{
         	  
@@ -280,6 +302,9 @@ public class CircularSelector extends View{
     
     private void initializeUI(){
     	mPortraitCircle = getBitmapFor(R.drawable.lock_ic_circle_port);
+    	mPortraitCircle = Bitmap.createScaledBitmap(getBitmapFor(R.drawable.lock_ic_circle_port), (int)(mPortraitCircle.getWidth() * mDensityScaleFactor),
+    						(int) (mPortraitCircle.getHeight() * mDensityScaleFactor), false);
+    	
     	mLandscapeCircle =  getBitmapFor(R.drawable.lock_ic_land_phosphrous);
     	mLockIcon = getBitmapFor(R.drawable.lock_ic_lock_bg);
     }

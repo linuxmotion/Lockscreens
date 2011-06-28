@@ -2,4 +2,8 @@
 <resources>
     <string name="hello">Hello and welcome to the lockscreen tester.</string>
     <string name="app_name">LockScreenTester</string>
+     <string name="rotary_string">Rotary</string>
+    <string name="circular_string">Circular</string>
+    
+    <string name="tester_string">Test</string>
 </resources>

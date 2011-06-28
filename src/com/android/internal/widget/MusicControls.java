@@ -34,9 +34,9 @@ public class MusicControls extends View {
     public static final int VERTICAL = 1;
 
 	private String TAG = "LockMusicControls";
-	private static final boolean DBG = false;
-	private static final boolean IDBG = false;
-    private static final boolean VISUAL_DEBUG = false;
+	private static final boolean DBG = true;
+	private static final boolean IDBG = true;
+    private static final boolean VISUAL_DEBUG = true;
 	
 	
 	// Listener for onMusic*Listeners() callbacks.

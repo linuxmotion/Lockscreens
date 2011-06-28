@@ -134,7 +134,6 @@ public class MusicControlsLayout extends LinearLayout implements OnClickListener
         
         // unregister call backs
 
-		  mContext = this.getContext();
 		  mContext.unregisterReceiver(mMusicReceiver);
 		  
 		  mContext = null;
