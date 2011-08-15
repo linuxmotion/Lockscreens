@@ -27,7 +27,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MusicTester extends Activity implements CircularSelector.OnCircularSelectorTriggerListener, RotarySelector.OnDialTriggerListener,OnClickListener{
+public class MusicTester extends Activity implements CircularSelector.OnCircularSelectorTriggerListener, SenseLikeLock.OnSenseLikeSelectorTriggerListener, 
+RotarySelector.OnDialTriggerListener,OnClickListener{
 
 
 	    private String mDateFormatString;
@@ -56,6 +57,7 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
 	
 	private CircularSelector mCircularSelector;
 	private RotarySelector mRotarySelector;
+	private SenseLikeLock mSenseLock;
 	
 	
 	private String TAG = "LockMusicControlsTester";
@@ -88,13 +90,15 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
         
         mOrientation = mDisplay.getRotation();
 
-        
+        /*
         if(this.mCirc ==  true)
         	useHCConcept();
         else if(this.mUseRotary == true )
         	useRotary();
         else if(this.mUseTest == true)
         	useTest();
+        	*/
+        useSense();
         
         //setContentView(R.layout.main);
         
@@ -104,6 +108,31 @@ public class MusicTester extends Activity implements CircularSelector.OnCircular
 		setContentView(R.layout.keyguard_screen_information_container);
       
 	}
+private void useSense(){
+    	
+		if (DBG) log("Setting the sense style");
+    	
+		 if( mOrientation == Surface.ROTATION_0 || mOrientation == Surface.ROTATION_180){
+			 
+		      	this.setContentView(R.layout.keyguard_screen_sense_unlock_port);
+		      }
+		      else{
+
+		          setContentView(R.layout.keyguard_screen_sense_unlock_land);
+		         
+		      }
+		 
+		 
+		 mSenseLock = (SenseLikeLock) findViewById(R.id.sense_selector);
+		 
+		 mSenseLock.setOnSenseLikeSelectorTriggerListener(this);
+		 mSenseLock.setVisibility(View.VISIBLE);
+
+
+    	
+    	
+    	
+    }
 	private void useRotary(){
     	
 		if (DBG) log("Setting the rotary style");
@@ -384,6 +413,17 @@ public void Toast(String string){
 			// this would poke the wake lock
 			// TODO Auto-generated method stub
 			
+		}
+		@Override
+		public void OnSenseLikeSelectorGrabbedStateChanged(View v, int GrabState) {
+			// TODO Auto-generated method stub
+			
+			
+		}
+		@Override
+		public void onSenseLikeSelectorTrigger(View v, int Trigger) {
+			// TODO Auto-generated method stub
+			Toast();
 		}
 		
 		

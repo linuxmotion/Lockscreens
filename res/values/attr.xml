@@ -23,6 +23,10 @@
         <!-- Use "horizontal" or "vertical". The default is horizontal. -->
         <attr name="orientation" />
     </declare-styleable>
+    <declare-styleable name="SenseLikeSelector">
+        <!-- Use "horizontal" or "vertical". The default is horizontal. -->
+        <attr name="orientation" />
+    </declare-styleable>
     
      <declare-styleable name="RotarySelector">
         <!-- Use "horizontal" or "vertical".  The default is horizontal. -->
