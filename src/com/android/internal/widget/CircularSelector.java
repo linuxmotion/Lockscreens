@@ -19,7 +19,6 @@
 package com.android.internal.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -34,7 +33,10 @@ import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 
-public class CircularSelector extends View{
+//import com.android.internal.R;
+
+
+public class CircularSelector extends View {
 	
 	
 	// ********************* Debug Variables
@@ -44,7 +46,7 @@ public class CircularSelector extends View{
 	private static final boolean DBG = false;
 	private static final boolean IDBG = false;
 	private static final boolean TDBG = false;
-    private static final boolean VISUAL_DEBUG = true;
+    private static final boolean VISUAL_DEBUG = false;
 	
     
     // ***********Rotation constants and variables
@@ -67,6 +69,8 @@ public class CircularSelector extends View{
 	   Bitmap mPortraitCircle;
 	   Bitmap mLandscapeCircle;
 	   Bitmap mLockIcon;
+	   Bitmap mLockIconBackGround;
+	   
 	   private int mLockX, mLockY;
 	   private boolean mIsTouchInCircle = false;
 	   
@@ -77,7 +81,6 @@ public class CircularSelector extends View{
 	   private int  mGrabbedState = OnCircularSelectorTriggerListener.ICON_GRABBED_STATE_NONE;
 	 
 	   Boolean mSlideisSensitive = false;
-	private float mDensityScaleFactor = 1;
 	 
     //
     //********************** Constructors**********
@@ -94,26 +97,6 @@ public class CircularSelector extends View{
 		   // TODO obtain proper orientaion
 		   
 	        mOrientation = a.getInt(R.styleable.CircularSelector_orientation, VERTICAL);
-	        
-	        Resources r = getResources();
-	        mDensity = r.getDisplayMetrics().density;
-	        int densityDpi = r.getDisplayMetrics().densityDpi;
-
-	        /*
-	         * this hack assumes people change build.prop for increasing
-	         * the virtual size of their screen by decreasing dpi in
-	         * build.prop file. this is often done especially for hd
-	         * phones. keep in mind changing build.prop and density
-	         * isnt officially supported, but this should do for most cases
-	         */
-	        if(densityDpi <= 240 && densityDpi >= 180)
-	            mDensityScaleFactor=(float)(240.0 / densityDpi);
-	        if(densityDpi <= 160 && densityDpi >= 120)
-	            mDensityScaleFactor=(float)(160.0 / densityDpi);
-
-	        
-	        
-	        
 
 	        a.recycle();
 	        
@@ -123,6 +106,18 @@ public class CircularSelector extends View{
 	
 	//**************** Overridden super methods
 	
+	// ************** Interfacees
+	
+	
+	
+	// ************* Initilization function
+	
+	private void initializeUI(){
+		mPortraitCircle = getBitmapFor(R.drawable.lock_ic_circle_port);
+		mLandscapeCircle =  getBitmapFor(R.drawable.lock_ic_land_phosphrous);
+      	mLockIcon = getBitmapFor(R.drawable.lock_ic_lock_move);
+		mLockIconBackGround = getBitmapFor(R.drawable.lock_ic_lock_bg);
+	}
 	@Override 
 	public boolean onTouchEvent(MotionEvent event){
 		super.onTouchEvent(event);
@@ -227,7 +222,7 @@ public class CircularSelector extends View{
 			  if (IDBG) log("Debugging the widget visibly");
               mPaint.setColor(0xffff0000);
               mPaint.setStyle(Paint.Style.STROKE);
-              canvas.drawRect(0, 0, width-1, height-1 , mPaint);
+              canvas.drawRect(0, 0, width, height , mPaint);
             if(isVertical()){
             	 canvas.drawCircle(halfWidth, height, halfWidth, mPaint);
               }else{
@@ -237,29 +232,33 @@ public class CircularSelector extends View{
           
           
           if(isVertical()){
-        	  canvas.drawBitmap(this.mPortraitCircle,  0, (height - this.mPortraitCircle.getHeight()), mPaint);
+        	  canvas.drawBitmap(mPortraitCircle,  0, height-mPortraitCircle.getHeight(), mPaint);
+        	  canvas.drawBitmap(mLockIconBackGround,  (width-mLockIconBackGround.getWidth())/2, (height-mLockIconBackGround.getHeight()), mPaint);
+        	  
           }
           else{
         	  
-        	  canvas.drawBitmap(this.mLandscapeCircle, (width-mLandscapeCircle.getWidth())/2, (height-mLandscapeCircle.getHeight())/2, mPaint);
+        	  canvas.drawBitmap(mLandscapeCircle, (width-mLandscapeCircle.getWidth())/2, (height-mLandscapeCircle.getHeight())/2, mPaint);
+        	  canvas.drawBitmap(mLockIconBackGround,  (width-mLockIconBackGround.getWidth())/2, (height-mLockIconBackGround.getHeight())/2, mPaint);
           }
+          
+          
           
           if(mIsTouchInCircle){	
 
-          	mLockIcon = getBitmapFor(R.drawable.lock_ic_lock_move);
         	  
         	  
         		  canvas.drawBitmap(mLockIcon,  mLockX-(mLockIcon.getWidth()/2), mLockY - mLockIcon.getHeight()/2, mPaint);
         	
           }
           else{
-        	  mLockIcon = getBitmapFor(R.drawable.lock_ic_lock_bg);
+        	  
         	  if(isVertical()){
-	        	  // Fallback case where the lock is always drawn in the center on the bottom of the view
-	        	   canvas.drawBitmap(mLockIcon,  (width/2)-(mLockIcon.getWidth()/2), height-mLockIcon.getHeight(), mPaint);
+	        	  // Vertical Fallback case where the lock is always drawn in the center on the bottom of the view
+	        	   canvas.drawBitmap(mLockIcon,  (width-mLockIcon.getWidth())/2, (height-mLockIcon.getHeight()), mPaint);
 	     	  }else{
-	    		// TODO  
-	     		 canvas.drawBitmap(mLockIcon,  (width - mLockIcon.getWidth())/2, (height -mLockIcon.getHeight())/2, mPaint);
+	     		// Horizontal Fallback case where the lock is always drawn in the center  view
+	     		 canvas.drawBitmap(mLockIcon,  (width - mLockIcon.getWidth())/2, (height - mLockIcon.getHeight())/2, mPaint);
 	    	  }
         	  
           }
@@ -299,17 +298,6 @@ public class CircularSelector extends View{
   
     
     // ************* Initilization function
-    
-    private void initializeUI(){
-    	mPortraitCircle = getBitmapFor(R.drawable.lock_ic_circle_port);
-    	mPortraitCircle = Bitmap.createScaledBitmap(getBitmapFor(R.drawable.lock_ic_circle_port), (int)(mPortraitCircle.getWidth() * mDensityScaleFactor),
-    						(int) (mPortraitCircle.getHeight() * mDensityScaleFactor), false);
-    	
-    	mLandscapeCircle =  getBitmapFor(R.drawable.lock_ic_land_phosphrous);
-    	mLockIcon = getBitmapFor(R.drawable.lock_ic_lock_bg);
-    }
-    
-    
     
     // ***********
     /**
